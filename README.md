@@ -4,7 +4,7 @@
 
 ต้องติดตั้ง NodeJs ก่อนนะคับ
 
- 1.```npm i puppeteer```
+ 1. ```npm i puppeteer```
  
  2. ```npm i readline-sync```
  
