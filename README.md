@@ -4,12 +4,18 @@
 
 ต้องติดตั้ง NodeJs ก่อนนะคับ
 
- 1.```npm i puppeteer``` \n
- 2. ```npm i readline-sync``` \n
- 3. ```npm i generate-password``` \n
- 4. ```npm i unique-username-generator``` \n
- 5. ```npm i gradient-string``` \n
- 6.  ```npm i discord.jsr``` \n
+ 1.```npm i puppeteer```
+ 
+ 2. ```npm i readline-sync```
+ 
+ 3. ```npm i generate-password```
+ 
+ 4. ```npm i unique-username-generator```
+ 
+ 5. ```npm i gradient-string```
+ 
+ 6.  ```npm i discord.jsr```
+ 
 
 #Start
 
