@@ -14,7 +14,7 @@
  
  5. ```npm i gradient-string```
  
- 6.  ```npm i discord.jsr```
+ 6.  ```npm i discord.js```
  
 
 #Start
