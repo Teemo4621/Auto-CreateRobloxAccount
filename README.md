@@ -10,7 +10,7 @@
 
 ## 📚 ขั้นตอนการติดตั้ง :
 
-``` nodejs
+``` node
 git clone https://github.com/Teemo4621/Auto-AccoutRoblox.git
 cd NanoSpacePlus
 npm install
