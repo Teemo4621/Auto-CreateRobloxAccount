@@ -17,7 +17,7 @@ npm install
 ```
 
 ## การเพิ่ม Discord Webhook
-ให้ไปที่ไฟล์ `config.json` เเล้วใส่ลิ้งURL webhook ลงไป
+ให้ไปที่ไฟล์ `config.json` เเล้วใส่ลิ้ง URL webhook ลงไป
 ```json
 {
     "webhook": "ใส่ discord webhook"
