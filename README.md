@@ -16,14 +16,15 @@ cd NanoSpacePlus
 npm install
 ```
 
-## การเพิ่ม discord webhook ให้ไปที่ไฟล์ `config.json` เเล้วใส่ลิ้งURL webhook ลงไป
-```
+## การเพิ่ม Discord Webhook
+ให้ไปที่ไฟล์ `config.json` เเล้วใส่ลิ้งURL webhook ลงไป
+```json
 {
     "webhook": "ใส่ discord webhook"
 }
 ```
 ถ้าไม่ใส่ก็ได้ เเต่บัญชีจะถูกบันทึกลงไปในไฟล์ `account.txt` ที่จะมาหลังจากการสร้างรหัสเสร็จ
-```
+```json
 {
     "webhook": ""
 }
