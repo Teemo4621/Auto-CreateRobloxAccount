@@ -5,6 +5,8 @@ const generator = require('generate-password'); //added Create Passwords
 const readlineSync = require('readline-sync'); //require text input
 const { generateUsername } = require("unique-username-generator"); //added generateUsername
 const { WebhookClient, EmbedBuilder } = require('discord.js') //added discord.js
+const config = require('./config.json')
+const fs = require('fs')
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
 const days = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15',
@@ -39,18 +41,32 @@ function delay(time) {
         return items[Math.floor(Math.random() * items.length)];
     }
 
+    function writedingAccount(username, password, cookie) {
+        data = `{ "username": "${username}", "password": "${password}", "cookie": "${cookie}" }`;
+        fs.appendFile("account.txt", `${data}\r\n`, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+          });
+    }
+
     const loop = readlineSync.questionInt("rounds : ".grey);
     if (loop > 6) {
         console.error('maximum 6 times per round'.red)
         delay(2000)
         return
     }
-
-    const getWebhookUrl = readlineSync.question("WebhookURL : ".grey);
-    if (getWebhookUrl.length < 0) return console.log('กรุณาใส่ WebhookURL '.red)
-    const webhook = new WebhookClient({ url: getWebhookUrl })
-    if (webhook) {
-        console.log("Get Wenhook Successfull \n".blue)
+    let webhook
+    let onWebhook = false
+    if (config.webhook.length > 10) {
+        webhook = new WebhookClient({ url: config.webhook })
+        if (webhook) {
+            onWebhook = true
+            console.log("Get Wenhook Successfull \n".blue)
+        } else {
+            console.log("Get Wenhook Error \n".blue)
+        }
     }
 
     const usernameInput = readlineSync.question("prefix username(as Zemon_ or gomen don't have @,$,#,%,!) : ".grey)
@@ -137,13 +153,23 @@ function delay(time) {
             console.log('> Click SingUp \n'.yellow)
 
             await page.waitForSelector('.game-home-page-container', { timeout: 30000 }).then(async () => {
-                const getCookie = await page.cookies()
-                const cookie = getCookie.find((cookies) => {
-                    return cookies.name === ".ROBLOSECURITY";
-                })
-                await webhook.send({ embeds: [new EmbedBuilder({ title: `🎰 | สร้างบัญชี Roblox เสร็จสิ้นเเล้วค่ะ`, description: `***Username*** : ||${genUsername}|| \n***Password*** : ||${genpassword}|| \n***Cookie*** : ||${cookie.value}||`, footer: { text: 'MakeBy ZEMON#1269' },image: {url: "https://media.tenor.com/Unrbryt4npgAAAAC/anime-sad.gif"}, author: { name: "ZEMONDev", iconURL: "https://i.redd.it/r9i4b4833xm21.jpg"} }).setTimestamp().setColor('#f3b175')] })
-                console.log('Wait 5 seconds before the next registration. \n')
-                await delay(5000);
+                if (onWebhook == false) {
+                    const getCookie = await page.cookies()
+                    const cookie = getCookie.find((cookies) => {
+                        return cookies.name === ".ROBLOSECURITY";
+                    })
+                    writedingAccount(genUsername, genpassword, cookie.value)
+                    console.log('Wait 5 seconds before the next registration. \n')
+                    await delay(5000);
+                } else {
+                    const getCookie = await page.cookies()
+                    const cookie = getCookie.find((cookies) => {
+                        return cookies.name === ".ROBLOSECURITY";
+                    })
+                    await webhook.send({ embeds: [new EmbedBuilder({ title: `🎰 | สร้างบัญชี Roblox เสร็จสิ้นเเล้วค่ะ`, description: `***Username*** : ||${genUsername}|| \n***Password*** : ||${genpassword}|| \n***Cookie*** : ||${cookie.value}||`, footer: { text: 'MakeBy ZEMON#1269' }, image: { url: "https://media.tenor.com/Unrbryt4npgAAAAC/anime-sad.gif" }, author: { name: "ZEMONDev", iconURL: "https://i.redd.it/r9i4b4833xm21.jpg" } }).setTimestamp().setColor('#f3b175')] })
+                    console.log('Wait 5 seconds before the next registration. \n')
+                    await delay(5000);
+                }
             })
             browser.close()
         } catch (err) {
