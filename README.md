@@ -6,23 +6,9 @@
 ถ้าไม่เข้าใจตรงไหนให้ DM ผ่าน Discord ได้เลยนะคับ
 Discord: ZEMON#1269
 
-<<<<<<< HEAD
- 1. ```npm i puppeteer```
- 
- 2. ```npm i readline-sync```
- 
- 3. ```npm i generate-password```
- 
- 4. ```npm i unique-username-generator```
- 
- 5. ```npm i gradient-string```
- 
- 6.  ```npm i discord.js```
- 
 =======
 ## ต้องติดตั้งNodeJSก่อนนะคับ
 สำคัญมากๆ(ไม่มีจะใช้ไม่ได้นะคับ)
->>>>>>> 7d27864f4cd553fc71cfe9516637fc44844bf947
 
 * NodeJs [กดโหลดเลย](https://nodejs.org/en/)
 
