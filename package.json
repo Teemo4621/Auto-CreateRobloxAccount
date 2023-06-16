@@ -4,10 +4,7 @@
     "discord.js": "^14.7.1",
     "generate-password": "^1.7.0",
     "gradient-string": "^2.0.2",
-    "input": "^1.0.1",
-    "puppeteer": "^19.3.0",
-    "readline-sync": "^1.4.10",
-    "unique-username-generator": "^1.1.3",
-    "username-generator": "^1.1.0"
+    "puppeteer": "^19.11.1",
+    "readline-sync": "^1.4.10"
   }
 }

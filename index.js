@@ -1,9 +1,8 @@
 const gradient = require('gradient-string');
-const puppeteer = require('puppeteer') //add webscraping
+const puppeteer = require('puppeteer')
 require('colors') //added edit textcolors
 const generator = require('generate-password'); //added Create Passwords
 const readlineSync = require('readline-sync'); //require text input
-const { generateUsername } = require("unique-username-generator"); //added generateUsername
 const { WebhookClient, EmbedBuilder } = require('discord.js') //added discord.js
 const config = require('./config.json')
 const fs = require('fs')
@@ -20,6 +19,8 @@ function delay(time) {
 }
 
 (async () => {
+    console.clear()
+
     console.log(gradient('white', 'gray').multiline([
         "DevBy: ZEMON \n",
         "/> Roblox Account Generate v.1 </ \n",
@@ -28,12 +29,12 @@ function delay(time) {
 
     console.log(gradient.cristal('DiscordMe ∨ \n'));
     let logo = gradient('orange', 'yellow').multiline([
-        "███████╗███████╗███╗░░░███╗░█████╗░███╗░░██╗░░░██╗░██╗░░░███╗░░██████╗░░█████╗░░█████╗░",
-        "╚════██║██╔════╝████╗░████║██╔══██╗████╗░██║██████████╗░████║░░╚════██╗██╔═══╝░██╔══██╗",
-        "░░███╔═╝█████╗░░██╔████╔██║██║░░██║██╔██╗██║╚═██╔═██╔═╝██╔██║░░░░███╔═╝██████╗░╚██████║",
-        "██╔══╝░░██╔══╝░░██║╚██╔╝██║██║░░██║██║╚████║██████████╗╚═╝██║░░██╔══╝░░██╔══██╗░╚═══██║",
-        "███████╗███████╗██║░╚═╝░██║╚█████╔╝██║░╚███║╚██╔═██╔══╝███████╗███████╗╚█████╔╝░█████╔╝",
-        "╚══════╝╚══════╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚══╝░╚═╝░╚═╝░░░╚══════╝╚══════╝░╚════╝░░╚════╝░",
+        "███████╗███████╗███╗░░░███╗░█████╗░███╗░░██╗",
+        "╚════██║██╔════╝████╗░████║██╔══██╗████╗░██║",
+        "░░███╔═╝█████╗░░██╔████╔██║██║░░██║██╔██╗██║",
+        "██╔══╝░░██╔══╝░░██║╚██╔╝██║██║░░██║██║╚████║",
+        "███████╗███████╗██║░╚═╝░██║╚█████╔╝██║░╚███║",
+        "╚══════╝╚══════╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚══╝",
     ].join('\n'))
     console.log(logo + '\n');
 
@@ -43,20 +44,15 @@ function delay(time) {
 
     function writedingAccount(username, password, cookie) {
         data = `{ "username": "${username}", "password": "${password}", "cookie": "${cookie}" }`;
-        fs.appendFile("account.txt", `${data}\r\n`, function(err) {
-            if(err) {
+        fs.appendFile("account.txt", `${data}\r\n`, function (err) {
+            if (err) {
                 return console.log(err);
             }
             console.log("The file was saved!");
-          });
+        });
     }
 
-    const loop = readlineSync.questionInt("rounds : ".grey);
-    if (loop > 6) {
-        console.error('maximum 6 times per round'.red)
-        delay(2000)
-        return
-    }
+    const loop = readlineSync.questionInt("Rounds : ".grey);
     let webhook
     let onWebhook = false
     if (config.webhook.length > 10) {
@@ -69,41 +65,70 @@ function delay(time) {
         }
     }
 
-    const usernameInput = readlineSync.question("prefix username(as Zemon_ or gomen don't have @,$,#,%,!) : ".grey)
+    const usernameInput = readlineSync.question("Prefix username(as Zemon_ or gomen don't have @,$,#,%,!) : ".grey)
     if (usernameInput.length <= 0) {
         console.error('Please enter the prefix username'.red)
-        delay(2000)
-        return
-    }
-    const passwordLength = readlineSync.question('length random password(as 3 result username + randompassword(3)) : '.grey);
-    if (!parseInt(passwordLength)) {
-        console.error('password length You can only enter numbers'.red)
-        delay(2000)
-        return
-    }
-    if (passwordLength.length <= 0) {
-        console.error('Please enter the length of the password.'.red)
-        delay(2000)
-        return
-    }
-    if (passwordLength.length > 1 || passwordLength > 9) {
-        console.error('password length You can put up to 9 of them.'.red)
         delay(2000)
         return
     }
 
     for (i = 0; i < loop; i++) {
         try {
+            console.clear()
             console.log(`round ${i + 1} \n`.yellow)
-            const browser = await puppeteer.launch({ headless: false });
+            let userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36';
+            let options = {
+                headless: false,
+                ignoreHTTPSErrors: true,
+                defaultViewport: null,
+                devtools: false,
+                ignoreDefaultArgs: ["--disable-extensions", "--enable-automation"],
+                args: [
+                    '--disable-features=IsolateOrigins,site-per-process',
+                    '--allow-running-insecure-content',
+                    '--disable-blink-features=AutomationControlled',
+                    '--no-sandbox',
+                    '--mute-audio',
+                    '--no-zygote',
+                    '--no-xshm',
+                    '--no-first-run',
+                    '--no-default-browser-check',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--enable-webgl',
+                    '--ignore-certificate-errors',
+                    '--lang=en-US,en;q=0.9',
+                    '--password-store=basic',
+                    '--disable-gpu-sandbox',
+                    '--disable-software-rasterizer',
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-renderer-backgrounding',
+                    '--disable-infobars',
+                    '--disable-breakpad',
+                    '--disable-canvas-aa',
+                    '--disable-2d-canvas-clip-aa',
+                    '--disable-gl-drawing-for-tests',
+                    '--enable-low-end-device-mode',
+                ]
+            };
+
+            const browser = await puppeteer.launch(options);
             const page = await browser.newPage();
 
-            const getUsername = generateUsername("", 0, 5)
-            const genUsername = usernameInput + getUsername
-            const genpassword = genUsername + generator.generate({ length: passwordLength, numbers: true })
+            page.setViewport({
+                width: 400,
+                height: 800,
+                deviceScaleFactor: 1,
+            })
+
+            await page.setUserAgent(userAgent)
+
+            const genUsername = usernameInput + i
+            const genpassword = genUsername + generator.generate({ length: 6, numbers: true })
 
             //Specify roblox issue page url
-            await page.goto('https://www.roblox.com/')
+            await page.goto('https://www.roblox.com/', { waitUntil: "domcontentloaded" })
             console.log('> Goto Roblox Register Page \n'.yellow);
             //waiting for page
             await page.waitForSelector('#signup-button')
@@ -128,18 +153,15 @@ function delay(time) {
             if (alert == "This username is already in use.") {
                 browser.close()
                 console.error('\n This username is already in use.(มีคนใช้ username อันนี้ไปเเล้ว)'.red)
-                delay(2000)
-                return
+                delay(1000)
             } else if (alert == "Username not appropriate for Roblox.") {
                 browser.close()
-                console.error('\n Username not appropriate for Roblox.(ชื่อผู้ใช้ไม่เหมาะสมสำหรับ Roblox)'.red)
-                delay(2000)
-                return
+                console.error('\n Username not appropriate for Roblox.(ชื่อผู้ใช้ไม่เหมาะสม)'.red)
+                delay(1000)
             } else if (alert == "Usernames may only contain letters, numbers, and _.") {
                 browser.close()
                 console.error('\n Usernames may only contain letters, numbers, and _.'.red)
-                delay(2000)
-                return
+                delay(1000)
             } else {
                 console.log('> This username can be used \n'.green)
             }
@@ -148,38 +170,33 @@ function delay(time) {
             await page.click('#MaleButton').catch((err) => console.log('Clicktype Err'.red, err))
             console.log('> Select MaleButton \n'.yellow)
             //click Submit button 
-            await delay(2000);
+            await delay(1000);
             await page.click('#signup-button').catch((err) => console.log('ClickSubmit Err'.red, err))
             console.log('> Click SingUp \n'.yellow)
 
-            await page.waitForSelector('.game-home-page-container', { timeout: 30000 }).then(async () => {
+            await page.waitForSelector('.game-home-page-container', { timeout: 500000 }).then(async () => {
                 if (onWebhook == false) {
                     const getCookie = await page.cookies()
                     const cookie = getCookie.find((cookies) => {
                         return cookies.name === ".ROBLOSECURITY";
                     })
                     writedingAccount(genUsername, genpassword, cookie.value)
-                    console.log('Wait 5 seconds before the next registration. \n')
-                    await delay(5000);
+                    console.log('Wait 2 seconds before the next registration. \n')
+                    await delay(2000);
                 } else {
                     const getCookie = await page.cookies()
                     const cookie = getCookie.find((cookies) => {
                         return cookies.name === ".ROBLOSECURITY";
                     })
-                    await webhook.send({ embeds: [new EmbedBuilder({ title: `🎰 | สร้างบัญชี Roblox เสร็จสิ้นเเล้วค่ะ`, description: `***Username*** : ||${genUsername}|| \n***Password*** : ||${genpassword}|| \n***Cookie*** : ||${cookie.value}||`, footer: { text: 'MakeBy ZEMON#1269' }, image: { url: "https://media.tenor.com/Unrbryt4npgAAAAC/anime-sad.gif" }, author: { name: "ZEMONDev", iconURL: "https://i.redd.it/r9i4b4833xm21.jpg" } }).setTimestamp().setColor('#f3b175')] })
-                    console.log('Wait 5 seconds before the next registration. \n')
+                    await webhook.send({ embeds: [new EmbedBuilder({ title: `🎰 | สร้างบัญชี Roblox เสร็จสิ้นเเล้ว`, description: `***Username*** : ||${genUsername}|| \n***Password*** : ||${genpassword}|| \n***Cookie*** : \`\`\`${cookie.value}\`\`\``, footer: { text: 'MakeBy ZEMON#1269' }, image: { url: "https://media.tenor.com/Unrbryt4npgAAAAC/anime-sad.gif" }, author: { name: "ZEMONDev", iconURL: "https://i.redd.it/r9i4b4833xm21.jpg" } }).setTimestamp().setColor('DarkPurple')] })
+                    console.log('Wait 2 seconds before the next registration. \n')
                     await delay(5000);
                 }
             })
             browser.close()
         } catch (err) {
-            console.log(err, 'เกิด Err กรุณาลองใหม่อีกครั้ง'.red);
+            console.log('เกิด Err กรุณาลองใหม่อีกครั้ง'.red);
         }
     }
 
-})().catch(err => {
-    console.error('Webhook URL Error'.red)
-    delay(2000)
-    return
-}) 
-
+})()
