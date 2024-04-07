@@ -1,9 +1,9 @@
- --Vars
+
+--Vars
         LocalPlayer = game:GetService("Players").LocalPlayer
         Camera = workspace.CurrentCamera
         VirtualUser = game:GetService("VirtualUser")
         MarketplaceService = game:GetService("MarketplaceService")
-        
         --Get Current Vehicle
         function GetCurrentVehicle()
             return LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid.SeatPart and LocalPlayer.Character.Humanoid.SeatPart.Parent
@@ -36,6 +36,13 @@
         StartPosition = CFrame.new(Vector3.new(4940.19775, 66.0195084, -1933.99927, 0.343969434, -0.00796990748, -0.938947022, 0.00281227613, 0.999968231, -0.00745762791, 0.938976645, -7.53822824e-05, 0.343980938), Vector3.new())
         EndPosition = CFrame.new(Vector3.new(1827.3407, 66.0150146, -658.946655, -0.366112858, 0.00818905979, 0.930534422, 0.00240773871, 0.999966264, -0.00785277691, -0.930567324, -0.000634518801, -0.366120219), Vector3.new())
         AutoFarmFunc = coroutine.create(function()
+            local args = {
+                [1] = "Spawn",
+                [2] = "Zenvo-TS1GT"
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VehicleEvent"):FireServer(unpack(args))
+
             while wait() do
                 if not AutoFarm then
                     AutoFarmRunning = false
@@ -70,15 +77,15 @@
                 Visual:Label("Farms")
                 Visual:Line()
                 
-                Visual:Toggle("Auto Farm", "Activates farm. Get in car to start",false, function(value)
+                Visual:Toggle("Auto Farm", "Activates farm. Get in car to start",true, function(value)
                     AutoFarm = value
                         if value and not AutoFarmRunning then
                             coroutine.resume(AutoFarmFunc)
                         end
                 end)
-                Visual:Toggle("TouchTheRoad", "doesnt work for some cars",false, function(value)
+                Visual:Toggle("TouchTheRoad", "doesnt work for some cars",true, function(value)
                     TouchTheRoad = value
                 end)
-                Visual:Toggle("AntiAFK", "simulates keypressing",false, function(value)
+                Visual:Toggle("AntiAFK", "simulates keypressing",true, function(value)
                     AntiAFK = value
                 end)
