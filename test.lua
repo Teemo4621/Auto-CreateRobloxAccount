@@ -67,7 +67,7 @@ LocalPlayer.Idled:Connect(function()
 end)
 
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Simak90/pfsetcetc/main/fluxed.lua"))() -- UI Library
-local win = lib:Window("ZEMON HUB", "MAKE WITH LOVE BY: ZEMONNUB 💖", Color3.fromRGB(102, 0, 255), _G.closeBind)                -- done mess with
+local win = lib:Window("ZEMON HUB", "MAKE BY: ZEMONNUB 💖", Color3.fromRGB(102, 0, 255), _G.closeBind)                -- done mess with
 
 ---------Spins--------------------------------
 local Visual = win:Tab("Main", "http://www.roblox.com/asset/?id=6023426915")
