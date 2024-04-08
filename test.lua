@@ -54,6 +54,7 @@ AutoFarmFunc = coroutine.create(function()
             else
                 game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.W,false,game) 
                 TP(StartPosition + (TouchTheRoad and Vector3.new(0, 0, 0) or Vector3.new(0, 0, 0)))
+                wait(15)
             end
         end)
     end
