@@ -32,19 +32,36 @@ function VelocityTP(cframe)
     BodyGyro:Destroy()
 end
 
+function GetCar()
+    for i,v in ipairs(game:GetService("Players").LocalPlayer.PlayerGui.MainHUD.Vehicles.Container.List:GetChildren()) do
+        if v.ClassName == "ImageButton" and v:FindFirstChild("VehicleName") and v.Name ~= "Template" then
+            return v.Name
+        end
+    end
+end
+
 --Auto Farm
-StartPosition = CFrame.new(
-Vector3.new(4940.19775, 66.0195084, -1933.99927, 0.343969434, -0.00796990748, -0.938947022, 0.00281227613, 0.999968231,
-    -0.00745762791, 0.938976645, -7.53822824e-05, 0.343980938), Vector3.new())
-EndPosition = CFrame.new(
-Vector3.new(1827.3407, 66.0150146, -658.946655, -0.366112858, 0.00818905979, 0.930534422, 0.00240773871, 0.999966264,
-    -0.00785277691, -0.930567324, -0.000634518801, -0.366120219), Vector3.new())
+StartPosition = CFrame.new(Vector3.new(-34453.4648, 34.3936348, -32754.6387, -0.887718797, -0.00943092164, -0.460289478, -0.0085602235, 0.999955416, -0.00397886429, 0.460306495, 0.000408068387, -0.887759984), Vector3.new())
+EndPosition = CFrame.new(Vector3.new(-33167.5547, 34.3963928, -30203.9102, -0.895898819, -0.0100118732, -0.444145352, -0.00895143207, 0.999949872, -0.00448455475, 0.444168001, -4.19701537e-05, -0.895943522), Vector3.new())
 AutoFarmFunc = coroutine.create(function()
     local args = {
-        [1] = "Spawn",
-        [2] = "Zenvo-TS1GT"
+        [1] = "playInitiated",
+        [2] = {
+            ["buttonsClicked"] = {
+                [1] = "Shop",
+                [2] = "Play"
+            },
+            ["fps"] = 31
+        }
     }
-
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("InformGeneralEventFunnel"):FireServer(unpack(args))    
+    
+    local args = {
+        [1] = "Spawn",
+        [2] = GetCar()
+    }
+    
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VehicleEvent"):FireServer(unpack(args))
 
     while wait() do
@@ -54,12 +71,20 @@ AutoFarmFunc = coroutine.create(function()
         end
         AutoFarmRunning = true
         pcall(function()
+            for i = 1, 7 do
+                local args = {
+                    [1] = i
+                }
+                
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))   
+            end
+
             if not GetCurrentVehicle() and tick() - (LastNotif or 0) > 5 then
                 LastNotif = tick()
             else
-                game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.E,false,game) 
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.E,false,game)
                 TP(StartPosition + (TouchTheRoad and Vector3.new(0, 0, 0) or Vector3.new(0, 0, 0)))
-                VelocityTP(EndPosition + (TouchTheRoad and Vector3.new() or Vector3.new(0, 0, 0)))
+                VelocityTP(EndPosition + (TouchTheRoad and Vector3.new(0, 0, 0) or Vector3.new(0, 0, 0)))
             end
         end)
     end
